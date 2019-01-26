@@ -40,10 +40,21 @@ class FusionEKF {
 
   // tool object used to compute Jacobian and RMSE
   Tools tools;
+  // Kalman Filter variables
+  Eigen::VectorXd x;	// object state
+  Eigen::VectorXd u;	// external motion
+  Eigen::MatrixXd F; // state transition matrix
+  Eigen::MatrixXd P;	// object covariance matrix
+  Eigen::MatrixXd I; // Identity matrix
+  Eigen::MatrixXd Q;	// process covariance matrix
+
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
   Eigen::MatrixXd Hj_;
+
+  float noise_ax;
+  float noise_ay;
 };
 
 #endif // FusionEKF_H_
