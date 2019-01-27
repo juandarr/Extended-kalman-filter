@@ -1,5 +1,5 @@
 #include "kalman_filter.h"
-#include "tools.h"
+#include <math.h>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -57,15 +57,21 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
    * TODO: update the state by using Extended Kalman Filter equations
    */
   // used to compute the RMSE later
-  /*
-  Tools tools;
-
+  
   VectorXd z_pred = VectorXd(3);
   float pos_squared = pow(x_[0]*x_[0]+ x_[1]*x_[1], 0.5);
-  z_pred << pos_squared, atan(x_[1]/x_[0]), (x_[0]*x_[2]+x_[1]*x_[3])/pos_squared;
+  z_pred << pos_squared, atan2(x_[1],x_[0]), (x_[0]*x_[2]+x_[1]*x_[3])/pos_squared;
 
   VectorXd y = z - z_pred;
-  MatrixXd H = tools.CalculateJacobian(x_);
+  if (y[1]> M_PI)
+  {
+    while (y[1] > M_PI) y[1]-= 2*M_PI;
+  }
+  else if (y[1] < -M_PI)
+  {
+    while (y[1]< -M_PI) y[1]+= 2*M_PI;
+  }
+
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
@@ -77,5 +83,5 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;
-  */
+  
 }
