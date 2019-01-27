@@ -90,7 +90,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if (!is_initialized_) {
     /**
      * - Initialize the state ekf_.x_ with the first measurement.
-     * - Create the covariance matrix.
      */
 
     // first measurement
