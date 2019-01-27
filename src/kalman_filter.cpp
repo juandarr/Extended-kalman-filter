@@ -26,7 +26,7 @@ void KalmanFilter::Init(VectorXd &x_in, MatrixXd &P_in, MatrixXd &F_in,
 
 void KalmanFilter::Predict() {
   /**
-   * TODO: predict the state
+   * predict the state
    */
   x_ = F_ * x_;
   MatrixXd Ft = F_.transpose();
@@ -35,7 +35,7 @@ void KalmanFilter::Predict() {
 
 void KalmanFilter::Update(const VectorXd &z) {
   /**
-   * TODO: update the state by using Kalman Filter equations
+   * update the state by using Kalman Filter equations
    */
   VectorXd z_pred = H_ * x_;
   VectorXd y = z - z_pred;
@@ -54,7 +54,7 @@ void KalmanFilter::Update(const VectorXd &z) {
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
   /**
-   * TODO: update the state by using Extended Kalman Filter equations
+   * update the state by using Extended Kalman Filter equations
    */
   // used to compute the RMSE later
   
@@ -63,12 +63,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   z_pred << pos_squared, atan2(x_[1],x_[0]), (x_[0]*x_[2]+x_[1]*x_[3])/pos_squared;
 
   VectorXd y = z - z_pred;
-  if (y[1]> M_PI)
-  {
+  //define phi fo y vector (y[1]) as an angle between -pi and pi 
+  if (y[1]> M_PI){
     while (y[1] > M_PI) y[1]-= 2*M_PI;
   }
-  else if (y[1] < -M_PI)
-  {
+  else if (y[1] < -M_PI){
     while (y[1]< -M_PI) y[1]+= 2*M_PI;
   }
 
